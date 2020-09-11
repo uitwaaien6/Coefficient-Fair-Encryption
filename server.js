@@ -3,12 +3,11 @@
 const express = require('express');
 const app = express();
 
-app.listen(3000);
+app.listen(3000, () => console.log('Server has started'));
+console.log('test');
 
 app.use(express.static('./src/screens'));
 app.use(express.json());
-
-console.log('Server has started');
 
 function decryptPassword(password, coefficients) {
     let decryptedPassword = '';
@@ -23,5 +22,7 @@ function decryptPassword(password, coefficients) {
 }
 
 app.post('/', async (req, res) => {
+    console.log('getting');
     console.log(req.body);
+    res.json(req.body);
 });
