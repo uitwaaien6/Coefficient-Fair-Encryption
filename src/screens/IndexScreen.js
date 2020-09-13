@@ -22,10 +22,12 @@ function IndexScreen() {
                 onPress={async () => {
                     const encryptionData = encryptPassword(password);
                     const newPassword = encryptionData[0];
+                    const coefficients = encryptionData[1];
                     setNewPassword(newPassword);
                     setPassword('');
+                    console.log(decryptPassword('2Gtg0G9vW8r1eB5ews8Jh9A2l7Y97pM4v3O9VDZF6hTr0U4Vpkhx5XQHn1PU9OtyLiIS939t1TYs5rwlVexuaalAR1uaVTXryi0HHmDeRXp8Wnn', [6,4,6,4,4,4,6,5,5,6,5,5,6,6,5,5,5,6]))
 
-                    const data = {
+                    /*const data = {
                         encryptedPassword: encryptionData[0],
                         coefficients: encryptionData[1]
                     }
@@ -44,7 +46,7 @@ function IndexScreen() {
                         console.log(response_json);
                     } catch (error) {
                         console.log(error);
-                    }
+                    }*/
 
                 }}
             />
