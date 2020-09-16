@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import useEncryption from '../hooks/useEncryption';
+import { useEncryption } from '../hooks/useEncryption';
+import jsonServer from '../api/jsonServer';
+
+async function sendEncryptionsToServer(password) {
+    const [randomUpperCase, encryptPassword, decryptPassword] = useEncryption();
+    const encryptionData = encryptPassword(password);
+    const encryptedPassword = encryptionData[0];
+    const coefficients = encryptionData[1];
+    const data = { encryptedPassword, coefficients };
+    try {
+        const response = await jsonServer.post('/', data);
+        console.log(response.data);
+    } catch (error) {
+        console.log(error);
+    }
+    return encryptionData;
+}
 
 function IndexScreen() {
-    const [randomUpperCase, encryptPassword, decryptPassword] = useEncryption();
     const [password, setPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
+    const [encryptedPassword, setEncryptedPassword] = useState('');
 
     return (
         <View>
-            <Text style={styles.title}>Enter your Password:</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Enter your password..."
@@ -19,51 +33,29 @@ function IndexScreen() {
             />
             <Button
                 title="Encrypt Password"
-                onPress={async () => {
-                    const encryptionData = encryptPassword(password);
-                    const newPassword = encryptionData[0];
-                    const coefficients = encryptionData[1];
-                    setNewPassword(newPassword);
+                onPress={() => {
                     setPassword('');
-                    console.log(decryptPassword('2Gtg0G9vW8r1eB5ews8Jh9A2l7Y97pM4v3O9VDZF6hTr0U4Vpkhx5XQHn1PU9OtyLiIS939t1TYs5rwlVexuaalAR1uaVTXryi0HHmDeRXp8Wnn', [6,4,6,4,4,4,6,5,5,6,5,5,6,6,5,5,5,6]))
-
-                    /*const data = {
-                        encryptedPassword: encryptionData[0],
-                        coefficients: encryptionData[1]
-                    }
-
-                    const options = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    }
-
-                    try {
-                        const response = await fetch('/', options);
-                        const response_json = await response.json();
-                        console.log(response_json);
-                    } catch (error) {
-                        console.log(error);
-                    }*/
-
+                    const encryptionData = sendEncryptionsToServer(password);
+                    setEncryptedPassword(encryptionData[0]);
                 }}
             />
-            <Text>Encrypted Password: {newPassword}</Text>
+            <Text style={styles.encryptedPassword}>{encryptedPassword}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 24,
-    },
     input: {
-        padding: 5,
+        margin: 15,
+        padding: 8,
         fontSize: 24,
-        borderWidth: 2,
-        borderRadius: 4
+        borderWidth: 1,
+        borderColor: 'grey',
+        borderRadius: 1
+    },
+    encryptedPassword: {
+        padding: 15,
+        textAlign: 'center'
     }
 })
 

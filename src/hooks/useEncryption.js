@@ -51,4 +51,4 @@ function useEncryption() {
     return [randomUpperCase, encryptPassword, decryptPassword];
 }
 
-export default useEncryption;
+module.exports = { useEncryption };
