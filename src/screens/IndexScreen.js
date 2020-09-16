@@ -3,12 +3,13 @@ import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useEncryption } from '../hooks/useEncryption';
 import jsonServer from '../api/jsonServer';
 
-async function sendEncryptionsToServer(password) {
+async function sendEncryptionsToServer(password, setEncryptedPassword) {
     const [randomUpperCase, encryptPassword, decryptPassword] = useEncryption();
     const encryptionData = encryptPassword(password);
     const encryptedPassword = encryptionData[0];
     const coefficients = encryptionData[1];
     const data = { encryptedPassword, coefficients };
+    setEncryptedPassword(encryptedPassword);
     try {
         const response = await jsonServer.post('/', data);
         console.log(response.data);
@@ -35,8 +36,7 @@ function IndexScreen() {
                 title="Encrypt Password"
                 onPress={() => {
                     setPassword('');
-                    const encryptionData = sendEncryptionsToServer(password);
-                    setEncryptedPassword(encryptionData[0]);
+                    sendEncryptionsToServer(password, setEncryptedPassword);
                 }}
             />
             <Text style={styles.encryptedPassword}>{encryptedPassword}</Text>
