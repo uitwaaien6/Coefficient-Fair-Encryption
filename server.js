@@ -17,8 +17,8 @@ app.post('/', (req, res) => {
     console.log(`Initializing data... #: ${req.body}`);
     const data = req.body;
     const { encryptedPassword, coefficients } = data;
-    console.log(` # Encryption: ${encryptedPassword}`);
+    console.log(` # Encryption: ${encryptedPassword} - ${coefficients}`);
     const decryptedPassword = decryptPassword(encryptedPassword, coefficients);
+    console.log('Sending decrypted password to client... !');
     res.json(decryptedPassword);
-    console.log('Password decryption is done! [==============] 100%');
 });
