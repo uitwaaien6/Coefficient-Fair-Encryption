@@ -4,10 +4,8 @@ import { useEncryption } from '../hooks/useEncryption';
 import jsonServer from '../api/jsonServer';
 
 async function sendEncryptionsToServer(password, setEncryptedPassword) {
-    const [randomUpperCase, encryptPassword, decryptPassword] = useEncryption();
-    const encryptionData = encryptPassword(password);
-    const encryptedPassword = encryptionData[0];
-    const coefficients = encryptionData[1];
+    const { randomUpperCase, encryptPassword, decryptPassword, encryptCoefficients } = useEncryption();
+    const { encryptedPassword, coefficients } = encryptPassword(password);
     const data = { encryptedPassword, coefficients };
     setEncryptedPassword(encryptedPassword);
     try {

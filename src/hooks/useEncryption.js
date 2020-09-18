@@ -1,7 +1,7 @@
 // COEFFICIENT FAIR ENCRYPTION SYSTEM. WRITTEN BY RUZGAR ATA OZKAN
 
 /*
-    The encryptPassword function takes 1 parameter which is your password obiously, and returns an array which has 2 elements in it. first element of the array is encrypted password and the second element is the coefficients that the letters of your password is buried into the encryption. So the decryptPassword function takes 2 parametes, first is the encrypted password and the second one is the coefficients of the encrypted password then it returns the decrypted password which is your normal password.
+    
 
     ======================================================================================
 
@@ -20,7 +20,7 @@ function encryptPassword(password) {
     const complexity = 4;
     let coefficient = 0;
     let encryption = '';
-    let newPassword = '';
+    let encryptedPassword = '';
     console.log(' ~ Encrypting password... ');
     for (let i = 0; i < password.length; i++) {
         coefficient = Math.floor(Math.random() * complexity + complexity);
@@ -30,14 +30,30 @@ function encryptPassword(password) {
             const generatedCode = randomUpperCase(letters[randomNum]);
             encryption = encryption + generatedCode;
         }
-        newPassword = newPassword + encryption + password[i];
+        encryptedPassword = encryptedPassword + encryption + password[i];
         encryption = '';
     }
     console.log(' ~ Password encryption is done. ');
-    return [newPassword, coefficients];
+    return { encryptedPassword, coefficients };
 }
 
 function decryptPassword(password, coefficients) {
+    const coefType = typeof coefficients;
+    console.log(coefType);
+    if (coefType == 'string') {
+        let coefArray = [];
+        for (let i = 0; i < coefficients.length; i++) {
+            coefArray.push(coefficients[i])
+        }
+        coefficients = [...coefArray];
+    }
+
+    if (coefType != 'string' || coefType != 'array') {
+        console.error('The type of coefficients is not valid!');
+        console.error('It has to be either array or string...');
+        return null;
+    }
+
     let decryptedPassword = '';
     let coefficientIndex = 0;
     console.log(' ~ Decrypting password... ');
@@ -47,10 +63,20 @@ function decryptPassword(password, coefficients) {
     }
     console.log(' ~ Password decryption is done. ');
     return decryptedPassword;
+
+}
+
+function encryptCoefficients(coefficients) {
+    let numbers = '';
+    for (let i = 0; i < coefficients.length; i++) {
+        numbers = numbers + coefficients[i];
+    }
+    const { encryptedPassword, coefficients } = encryptPassword(numbers);
+    return { encryptedPassword, coefficients };
 }
 
 function useEncryption() {
-    return [randomUpperCase, encryptPassword, decryptPassword];
+    return { randomUpperCase, encryptPassword, decryptPassword, encryptCoefficients };
 }
 
 module.exports = { useEncryption };
