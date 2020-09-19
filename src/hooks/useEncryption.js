@@ -8,13 +8,29 @@
     So is anyone to capture the password from the internet traffic is going to get the encrypted password.
 */
 
-function randomUpperCase(letter) {
-    const randomNum = Math.floor(Math.random() * 2);
-    if (randomNum == 1) return letter.toUpperCase()
-    else return letter.toLowerCase();
-}
-
 function encryptPassword(password) {
+    if (typeof password !== 'string') {
+        console.error(' # THE TYPE OF PASSWORD IS NOT VALID!');
+        console.error(' # IT HAS TO BE A STRING...');
+        return null;
+    }
+
+    function randomUpperCase(letter) {
+        const randomNum = Math.floor(Math.random() * 2);
+        if (randomNum == 1) {
+            return letter.toUpperCase();
+        }
+        return letter.toLowerCase();
+    }
+
+    function convertArrayToString(coeffs) {
+        let numbers = '';
+        for (let i = 0; i < coeffs.length; i++) {
+            numbers = numbers + coeffs[i];
+        }
+        return numbers;
+    }
+
     const letters = 'qwertyuiopasdfghjklzxcvbnm1234567890!&?$'.split('');
     const complexity = 4;
     let coefficients = [];
@@ -59,9 +75,9 @@ function encryptPassword(password) {
 
 function decryptPassword(password, coefficients) {
     if (typeof coefficients !== 'string' && Array.isArray(coefficients) == false) {
-        console.error('The type of coefficients is not valid!');
-        console.error('It has to be either array or string...');
-        return null;
+        console.error(' # THE TYPE OF COEFFICIENT IS NOT VALID!');
+        console.error(' # IT HAS TO BE EITHER ARRAY OR STRING...');
+        return password;
     }
 
     if (typeof coefficients == 'string') {
@@ -84,21 +100,8 @@ function decryptPassword(password, coefficients) {
     return decryptedPassword;
 }
 
-function convertArrayToString(coeffs) {
-    let numbers = '';
-    for (let i = 0; i < coeffs.length; i++) {
-        numbers = numbers + coeffs[i];
-    }
-    return numbers;
-}
-
 function useEncryption() {
-    return { 
-        randomUpperCase, 
-        encryptPassword, 
-        decryptPassword,
-        convertArrayToString
-    };
+    return { encryptPassword, decryptPassword };
 }
 
 module.exports = { useEncryption };

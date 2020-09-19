@@ -21,7 +21,7 @@ function IndexScreen() {
     const [password, setPassword] = useState('');
     //const [encryptedPassword, setEncryptedPassword] = useState('');
 
-    const { randomUpperCase, encryptPassword, decryptPassword, convertArrayToString } = useEncryption();
+    const { encryptPassword, decryptPassword } = useEncryption();
 
     return (
         <View>
@@ -38,7 +38,6 @@ function IndexScreen() {
                     //sendEncryptionsToServer(password, setEncryptedPassword);
                     const { encryptedPassword, encryptedCoefficient, coefficients } = encryptPassword('918273645Uitwaaien');
                     const decryptedCoefficient = decryptPassword(encryptedCoefficient, coefficients);
-                    console.log(decryptedCoefficient);
                     console.log(decryptPassword(encryptedPassword, decryptedCoefficient));
                 }}
             />
