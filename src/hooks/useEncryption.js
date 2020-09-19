@@ -15,12 +15,14 @@ function randomUpperCase(letter) {
 }
 
 function encryptPassword(password) {
-    const coefficients = [];
     const letters = 'qwertyuiopasdfghjklzxcvbnm1234567890!&?$'.split('');
+    console.log(letters);
     const complexity = 4;
+    let coefficients = [];
     let coefficient = 0;
     let encryption = '';
     let encryptedPassword = '';
+    let encryptedCoefficient = '';
     console.log(' ~ Encrypting password... ');
     for (let i = 0; i < password.length; i++) {
         coefficient = Math.floor(Math.random() * complexity + complexity);
@@ -34,24 +36,38 @@ function encryptPassword(password) {
         encryption = '';
     }
     console.log(' ~ Password encryption is done. ');
-    return { encryptedPassword, coefficients };
+
+    // ================== second phase ==================================
+
+    const coeffsAsString = convertArrayToString(coefficients);
+    console.log(coeffsAsString);
+    coefficients = [];
+    coefficient = 0;
+    console.log(' ~ Encrypting coefficients... ');
+    for (let i = 0; i < coeffsAsString.length; i++) {
+        coefficient = Math.floor(Math.random() * complexity + complexity);
+        coefficients.push(coefficient);
+        for (let j = 0; j < coefficient; j++) {
+            const randomNum = Math.floor(Math.random() * letters.length);
+            const generatedCode = randomUpperCase(letters[randomNum]);
+            encryption = encryption + generatedCode;
+        }
+        encryptedCoefficient = encryptedCoefficient + encryption + coeffsAsString[i];
+        encryption = '';
+    }
+    console.log(' ~ Coefficient encryption is done. ');
+    return { encryptedPassword, encryptedCoefficient, coefficients };
 }
 
 function decryptPassword(password, coefficients) {
-    const coefType = typeof coefficients;
-    console.log(coefType);
-    if (coefType == 'string') {
-        let coefArray = [];
-        for (let i = 0; i < coefficients.length; i++) {
-            coefArray.push(coefficients[i])
-        }
-        coefficients = [...coefArray];
-    }
-
-    if (coefType != 'string' || coefType != 'array') {
+    if (typeof coefficients !== 'string' || Array.isArray(coefficients) == false) {
         console.error('The type of coefficients is not valid!');
         console.error('It has to be either array or string...');
         return null;
+    }
+
+    if (typeof coefficients == 'string') {
+        coefficients = coefficients.split('');
     }
 
     let decryptedPassword = '';
@@ -63,20 +79,23 @@ function decryptPassword(password, coefficients) {
     }
     console.log(' ~ Password decryption is done. ');
     return decryptedPassword;
-
 }
 
-function encryptCoefficients(coefficients) {
+function convertArrayToString(coeffs) {
     let numbers = '';
-    for (let i = 0; i < coefficients.length; i++) {
-        numbers = numbers + coefficients[i];
+    for (let i = 0; i < coeffs.length; i++) {
+        numbers = numbers + coeffs[i];
     }
-    const { encryptedPassword, coefficients } = encryptPassword(numbers);
-    return { encryptedPassword, coefficients };
+    return numbers;
 }
 
 function useEncryption() {
-    return { randomUpperCase, encryptPassword, decryptPassword, encryptCoefficients };
+    return { 
+        randomUpperCase, 
+        encryptPassword, 
+        decryptPassword,
+        convertArrayToString
+    };
 }
 
 module.exports = { useEncryption };

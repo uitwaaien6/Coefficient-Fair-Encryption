@@ -4,7 +4,7 @@ import { useEncryption } from '../hooks/useEncryption';
 import jsonServer from '../api/jsonServer';
 
 async function sendEncryptionsToServer(password, setEncryptedPassword) {
-    const { randomUpperCase, encryptPassword, decryptPassword, encryptCoefficients } = useEncryption();
+    /*const { randomUpperCase, encryptPassword, decryptPassword, encryptCoefficients } = useEncryption();
     const { encryptedPassword, coefficients } = encryptPassword(password);
     const data = { encryptedPassword, coefficients };
     setEncryptedPassword(encryptedPassword);
@@ -14,12 +14,14 @@ async function sendEncryptionsToServer(password, setEncryptedPassword) {
     } catch (error) {
         console.log(error);
     }
-    return encryptionData;
+    return { encryptedPassword, coefficients };*/
 }
 
 function IndexScreen() {
     const [password, setPassword] = useState('');
-    const [encryptedPassword, setEncryptedPassword] = useState('');
+    //const [encryptedPassword, setEncryptedPassword] = useState('');
+
+    const { randomUpperCase, encryptPassword, decryptPassword, convertArrayToString } = useEncryption();
 
     return (
         <View>
@@ -33,11 +35,11 @@ function IndexScreen() {
             <Button
                 title="Encrypt Password"
                 onPress={() => {
-                    setPassword('');
-                    sendEncryptionsToServer(password, setEncryptedPassword);
+                    //sendEncryptionsToServer(password, setEncryptedPassword);
+                    encryptPassword('1234');
                 }}
             />
-            <Text style={styles.encryptedPassword}>{encryptedPassword}</Text>
+            <Text style={styles.encryptedPassword}>{}</Text>
         </View>
     );
 }
