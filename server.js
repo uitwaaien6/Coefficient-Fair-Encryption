@@ -3,7 +3,7 @@
 const { useEncryption } = require('./src/hooks/useEncryption');
 const express = require('express');
 const app = express();
-const { randomUpperCase, encryptPassword, decryptPassword, encryptCoefficients } = useEncryption();
+const { encryptPassword, decryptPassword } = useEncryption();
 
 app.get('/', (req, res) => res.send('Hello World'));
 
@@ -12,10 +12,15 @@ app.listen(3000, () => console.log('Server has started!'));
 app.use(express.static('./src/screens'));
 app.use(express.json());
 
+function handleEncryption(encryptedPassword, encryptedCoefficient, coefficients) {
+    const decryptedCoefficient = decryptPassword(encryptedCoefficient, coefficients);
+    const decryptedPassword = decryptPassword(encryptedPassword, decryptedCoefficient);
+    return decryptedPassword;
+}
+
 app.post('/', (req, res) => {
-    const { encryptedPassword, coefficients } = req.body;
-    console.log(` # Encryption: ${encryptedPassword} - ${coefficients}`);
-    const decryptedPassword = decryptPassword(encryptedPassword, coefficients);
-    console.log('Sending decrypted password to client... !');
+    const { encryptedPassword, encryptedCoefficient, coefficients } = req.body;
+    console.log(` # Encryption: ${encryptedPassword} - ${encryptedCoefficient}`);
+    const decryptedPassword = handleEncryption(encryptedPassword, encryptedCoefficient, coefficients);
     res.json(decryptedPassword);
 });

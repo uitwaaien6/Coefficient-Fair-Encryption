@@ -3,25 +3,23 @@ import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { useEncryption } from '../hooks/useEncryption';
 import jsonServer from '../api/jsonServer';
 
-async function sendEncryptionsToServer(password, setEncryptedPassword) {
-    /*const { randomUpperCase, encryptPassword, decryptPassword, encryptCoefficients } = useEncryption();
-    const { encryptedPassword, coefficients } = encryptPassword(password);
-    const data = { encryptedPassword, coefficients };
-    setEncryptedPassword(encryptedPassword);
+async function sendEncryptionsToServer(password, setDisplayPassword) {
+    const { encryptPassword, decryptPassword } = useEncryption();
+    const { encryptedPassword, encryptedCoefficient, coefficients } = encryptPassword(password);
+    const data = { encryptedPassword, encryptedCoefficient, coefficients };
+    setDisplayPassword(encryptedPassword);
     try {
         const response = await jsonServer.post('/', data);
         console.log(response.data);
     } catch (error) {
         console.log(error);
     }
-    return { encryptedPassword, coefficients };*/
+    return encryptedPassword;
 }
 
 function IndexScreen() {
     const [password, setPassword] = useState('');
-    //const [encryptedPassword, setEncryptedPassword] = useState('');
-
-    const { encryptPassword, decryptPassword } = useEncryption();
+    const [displayPassword, setDisplayPassword] = useState('');
 
     return (
         <View>
@@ -34,14 +32,12 @@ function IndexScreen() {
             />
             <Button
                 title="Encrypt Password"
-                onPress={() => {
-                    //sendEncryptionsToServer(password, setEncryptedPassword);
-                    const { encryptedPassword, encryptedCoefficient, coefficients } = encryptPassword('918273645Uitwaaien');
-                    const decryptedCoefficient = decryptPassword(encryptedCoefficient, coefficients);
-                    console.log(decryptPassword(encryptedPassword, decryptedCoefficient));
+                onPress={async () => {
+                    sendEncryptionsToServer(password, setDisplayPassword);
+                    setPassword('');
                 }}
             />
-            <Text style={styles.encryptedPassword}>{}</Text>
+            <Text style={styles.encryptedPassword}>{displayPassword}</Text>
         </View>
     );
 }

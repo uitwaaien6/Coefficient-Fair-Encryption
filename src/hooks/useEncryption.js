@@ -80,7 +80,10 @@ function decryptPassword(password, coefficients) {
         return password;
     }
 
+    let logMessage = '';
+
     if (typeof coefficients == 'string') {
+        logMessag = 'Coefficient';
         const coeffsInNumber = [];
         coefficients = coefficients.split('');
         for (let i = 0; i < coefficients.length; i++) {
@@ -91,12 +94,12 @@ function decryptPassword(password, coefficients) {
 
     let decryptedPassword = '';
     let coefficientIndex = 0;
-    console.log(' ~ Decrypting password... ');
+    console.log(` ~ Decrypting ${logMessag}s... `);
     for (let i = coefficients[coefficientIndex]; i < password.length; i = i + (coefficients[coefficientIndex] + 1)) {
         decryptedPassword = decryptedPassword + password[i];
         coefficientIndex++;
     }
-    console.log(' ~ Password decryption is done. ');
+    console.log(` ~ ${logMessage} Decryption is done. `);
     return decryptedPassword;
 }
 
