@@ -9,6 +9,8 @@ So is anyone to capture the password from the internet traffic is going to get t
 ~ Requirements to test the program >
   - node.js
   - expo client app in your phone
+  
+# STEP BY STEP
 
  - first download the whole file from repository to your desktop and unzip it.
  - change the directory to our app file.
