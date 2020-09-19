@@ -22,5 +22,8 @@ app.post('/', (req, res) => {
     const { encryptedPassword, encryptedCoefficient, coefficients } = req.body;
     console.log(` # Encryption: ${encryptedPassword} - ${encryptedCoefficient}`);
     const decryptedPassword = handleEncryption(encryptedPassword, encryptedCoefficient, coefficients);
-    res.json(decryptedPassword);
+    // do something with the decryptedPassword
+    // then send the encryptedPasswords to client again
+    // and thats how you communicate safely between client side and serverside...
+    res.json({ encryptedPassword, encryptedCoefficient, coefficients });
 });

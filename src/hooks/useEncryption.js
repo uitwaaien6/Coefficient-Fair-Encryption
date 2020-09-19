@@ -83,18 +83,20 @@ function decryptPassword(password, coefficients) {
     let logMessage = '';
 
     if (typeof coefficients == 'string') {
-        logMessag = 'Coefficient';
+        logMessage = 'Coefficient';
         const coeffsInNumber = [];
         coefficients = coefficients.split('');
         for (let i = 0; i < coefficients.length; i++) {
             coeffsInNumber.push(parseInt(coefficients[i]));
         }
         coefficients = coeffsInNumber;
+    } else {
+        logMessage = 'Password';
     }
 
     let decryptedPassword = '';
     let coefficientIndex = 0;
-    console.log(` ~ Decrypting ${logMessag}s... `);
+    console.log(` ~ Decrypting ${logMessage}s... `);
     for (let i = coefficients[coefficientIndex]; i < password.length; i = i + (coefficients[coefficientIndex] + 1)) {
         decryptedPassword = decryptedPassword + password[i];
         coefficientIndex++;
