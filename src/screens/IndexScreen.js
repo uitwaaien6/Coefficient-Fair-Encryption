@@ -36,7 +36,10 @@ function IndexScreen() {
                 title="Encrypt Password"
                 onPress={() => {
                     //sendEncryptionsToServer(password, setEncryptedPassword);
-                    encryptPassword('1234');
+                    const { encryptedPassword, encryptedCoefficient, coefficients } = encryptPassword('918273645Uitwaaien');
+                    const decryptedCoefficient = decryptPassword(encryptedCoefficient, coefficients);
+                    console.log(decryptedCoefficient);
+                    console.log(decryptPassword(encryptedPassword, decryptedCoefficient));
                 }}
             />
             <Text style={styles.encryptedPassword}>{}</Text>

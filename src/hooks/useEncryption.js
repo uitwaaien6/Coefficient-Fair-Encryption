@@ -1,11 +1,11 @@
 // COEFFICIENT FAIR ENCRYPTION SYSTEM. WRITTEN BY RUZGAR ATA OZKAN
 
 /*
-    
-
     ======================================================================================
 
-    This encryption system is designed to be used in the client side and its aim is to protect passwords from the internet traffic while being sent to the server. So is anyone to capture the password from the internet traffic is going to get the encrypted password.
+    This encryption system is designed to be used in the client side
+    and its aim is to protect passwords from the internet traffic while being sent to the server. 
+    So is anyone to capture the password from the internet traffic is going to get the encrypted password.
 */
 
 function randomUpperCase(letter) {
@@ -16,7 +16,6 @@ function randomUpperCase(letter) {
 
 function encryptPassword(password) {
     const letters = 'qwertyuiopasdfghjklzxcvbnm1234567890!&?$'.split('');
-    console.log(letters);
     const complexity = 4;
     let coefficients = [];
     let coefficient = 0;
@@ -40,7 +39,6 @@ function encryptPassword(password) {
     // ================== second phase ==================================
 
     const coeffsAsString = convertArrayToString(coefficients);
-    console.log(coeffsAsString);
     coefficients = [];
     coefficient = 0;
     console.log(' ~ Encrypting coefficients... ');
@@ -60,14 +58,19 @@ function encryptPassword(password) {
 }
 
 function decryptPassword(password, coefficients) {
-    if (typeof coefficients !== 'string' || Array.isArray(coefficients) == false) {
+    if (typeof coefficients !== 'string' && Array.isArray(coefficients) == false) {
         console.error('The type of coefficients is not valid!');
         console.error('It has to be either array or string...');
         return null;
     }
 
     if (typeof coefficients == 'string') {
+        const coeffsInNumber = [];
         coefficients = coefficients.split('');
+        for (let i = 0; i < coefficients.length; i++) {
+            coeffsInNumber.push(parseInt(coefficients[i]));
+        }
+        coefficients = coeffsInNumber;
     }
 
     let decryptedPassword = '';
