@@ -20,7 +20,7 @@ So is anyone to capture the password from the internet traffic is going to get t
  - In the second terminal, type: "npm run tunnel"
     and the terminal will give you 2 url which looks like this -> "Forwarding        http://{random numbers}.ngrok.io -> http://localhost:3000"
     that command is a json script and will create a tunnel of your local host and expose it to the public world
- - Then you have to copy that url which ands with the .io and you have to paste it in to the coefficient-cair-encryption-system/src/api/jsonServer.js -> axios.create({
+ - Then you have to copy that url which ends with the .io and you have to paste it in to the coefficient-cair-encryption-system/src/api/jsonServer.js -> axios.create({
     baseURL: 'http://{random numbers}.ngrok.io'
 });
     
