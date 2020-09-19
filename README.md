@@ -24,6 +24,8 @@ So is anyone to capture the password from the internet traffic is going to get t
     baseURL: 'http://{random numbers}.ngrok.io'
 });
     
- - In the third terminal, type: "expo start" or "npm start" and wait for the javascript bundle to download and you are almost ready to go.
+ - In the third terminal, type: "expo start" or "npm start" 
+    and then the terminal or "localhost:19002" will give you a QR Code and you have to scan it with your phones camera.
+    Then wait for the javascript bundle to download.
 
  - And that is it. type whatever you want in to the input and it will send that input to the server as encrypted and will fetch it back.
