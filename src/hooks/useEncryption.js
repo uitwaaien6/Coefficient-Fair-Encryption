@@ -8,14 +8,14 @@
     So is anyone to capture the password from the internet traffic is going to get the encrypted password.
 */
 
-function encryptPassword(password) {
+function encryptPassword(password="") {
     if (typeof password !== 'string') {
         console.error(' # THE TYPE OF PASSWORD IS NOT VALID!');
         console.error(' # IT HAS TO BE A STRING...');
         return null;
     }
 
-    function randomUpperCase(letter) {
+    function randomUpperCase(letter="") {
         const randomNum = Math.floor(Math.random() * 2);
         if (randomNum == 1) {
             return letter.toUpperCase();
@@ -23,7 +23,7 @@ function encryptPassword(password) {
         return letter.toLowerCase();
     }
 
-    function convertArrayToString(coeffs) {
+    function convertArrayToString(coeffs=[]) {
         let numbers = '';
         for (let i = 0; i < coeffs.length; i++) {
             numbers = numbers + coeffs[i];

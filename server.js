@@ -4,7 +4,7 @@ const { useEncryption } = require('./src/hooks/useEncryption');
 const express = require('express');
 const terminalImage = require('terminal-image');
 const figlet = require('figlet');
-const { readFileSync } = require('fs');
+const { readFileSync, writeFileSync } = require('fs');
 const app = express();
 const { encryptPassword, decryptPassword } = useEncryption();
 
@@ -13,12 +13,6 @@ function handleEncryption(encryptedPassword, encryptedCoefficient, coefficients)
     const decryptedPassword = decryptPassword(encryptedPassword, decryptedCoefficient);
     return decryptedPassword;
 }
-
-const data = {
-    "unicorn": 5,
-    "doom": 2,
-    "gloom": -1
-};
 
 function serverInit() {
     //console.log(await terminalImage.file('./images/WITHOUT_WARNING.png', { width: '100%' }));
@@ -37,18 +31,12 @@ function serverInit() {
         whitespaceBreak: false
     }));
 
-    const passwordsDB = readFileSync('./passwords.json');
-    const passwordsJSON = JSON.parse(passwordsDB);
-    passwordsJSON.passwords.push(1)
-    console.log(passwordsJSON);
 }
 
 app.listen(3000, serverInit);
 
 app.use(express.static('./src/screens'));
 app.use(express.json());
-
-
 
 app.post('/', (req, res) => {
     const { encryptedPassword, encryptedCoefficient, coefficients } = req.body;
@@ -65,15 +53,9 @@ app.post('/', (req, res) => {
 });
 
 app.get('/all', (req, res) => {
-    res.send(data);
+    const passwordsDB = readFileSync('./passwords.json');
+    const passwordsJSON = JSON.parse(passwordsDB);
+    console.log(passwordsJSON);
+    res.send(passwordsJSON);
 });
 
-app.get('/add/:word/:score', addWord);
-
-function addWord(req, res) {
-    const params = req.params;
-    data[params.word] = parseInt(params.score);
-    res.send({
-        "message": "Thank you for your contribution"
-    });
-}
