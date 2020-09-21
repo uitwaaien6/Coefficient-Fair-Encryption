@@ -14,7 +14,7 @@ const data = {
 };
 
 app.listen(3000, async () => {
-    console.log(await terminalImage.file('./images/WITHOUT_WARNING.png', { width: '100%' }));
+    //console.log(await terminalImage.file('./images/WITHOUT_WARNING.png', { width: '100%' }));
     console.log(figlet.textSync('WITHOUT', {
         font: 'big',
         horizontalLayout: 'default',
@@ -23,13 +23,6 @@ app.listen(3000, async () => {
         whitespaceBreak: false
     }));
     console.log(figlet.textSync('WARNING', {
-        font: 'big',
-        horizontalLayout: 'default',
-        verticalLayout: 'default',
-        width: 80,
-        whitespaceBreak: false
-    }));
-    console.log(figlet.textSync('uitwaaien . . .', {
         font: 'big',
         horizontalLayout: 'default',
         verticalLayout: 'default',
@@ -49,6 +42,8 @@ function handleEncryption(encryptedPassword, encryptedCoefficient, coefficients)
 
 app.post('/', (req, res) => {
     const { encryptedPassword, encryptedCoefficient, coefficients } = req.body;
+    const userData = req.body;
+    console.log(userData);
     console.log(` # Encryption: ${encryptedPassword} - ${encryptedCoefficient}`);
     const decryptedPassword = handleEncryption(encryptedPassword, encryptedCoefficient, coefficients);
     /* 
