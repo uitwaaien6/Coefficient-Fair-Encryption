@@ -15,6 +15,7 @@
     "expo-status-bar": "^1.0.2",
     "express": "^4.17.1",
     "figlet": "^1.5.0",
+    "fs": "0.0.1-security",
     "json-server": "^0.16.1",
     "ngrok": "^3.3.0",
     "react": "~16.11.0",

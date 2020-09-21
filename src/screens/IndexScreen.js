@@ -38,6 +38,7 @@ function IndexScreen() {
                 }}
             />
             <Text style={styles.encryptedPassword}>{displayPassword}</Text>
+            <Text>{displayPassword.toLowerCase()}</Text>
         </View>
     );
 }
