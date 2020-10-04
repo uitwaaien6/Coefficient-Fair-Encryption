@@ -8,7 +8,7 @@
     So is anyone to capture the password from the internet traffic is going to get the encrypted password.
 */
 
-function encryptPassword(password="", complexity=6) {
+function encryptPassword(password="") {
     if (typeof password !== 'string') {
         console.error(' # THE TYPE OF PASSWORD IS NOT VALID!');
         console.error(' # IT HAS TO BE A STRING...');
@@ -23,15 +23,8 @@ function encryptPassword(password="", complexity=6) {
         return letter.toLowerCase();
     }
 
-    function convertArrayToString(coeffs=[]) {
-        let numbers = '';
-        for (let i = 0; i < coeffs.length; i++) {
-            numbers = numbers + coeffs[i];
-        }
-        return numbers;
-    }
-
     const letters = 'qwertyuiopasdfghjklzxcvbnm1234567890!&?$'.split('');
+    const complexity = 4;
     let coefficients = [];
     let coefficient = 0;
     let encryption = '';
@@ -53,54 +46,70 @@ function encryptPassword(password="", complexity=6) {
 
     // ================== second phase ==================================
 
-    const coeffsAsString = convertArrayToString(coefficients);
-    coefficients = [];
+    const newCoefficients = [];
     coefficient = 0;
     console.log(' ~ Encrypting coefficients... ');
-    for (let i = 0; i < coeffsAsString.length; i++) {
+    for (let i = 0; i < coefficients.length; i++) {
         coefficient = Math.floor(Math.random() * complexity + complexity);
-        coefficients.push(coefficient);
+        newCoefficients.push(coefficient);
         for (let j = 0; j < coefficient; j++) {
             const randomNum = Math.floor(Math.random() * letters.length);
             const generatedCode = randomUpperCase(letters[randomNum]);
             encryption = encryption + generatedCode;
         }
-        encryptedCoefficient = encryptedCoefficient + encryption + coeffsAsString[i];
+        encryptedCoefficient = encryptedCoefficient + encryption + coefficients[i];
         encryption = '';
     }
     console.log(' ~ Coefficient encryption is done. ');
-    return { encryptedPassword, encryptedCoefficient, coefficients };
+    return { encryptedPassword, encryptedCoefficient, newCoefficients };
 }
 
-function decryptPassword(password, coefficients) {
-    if (typeof coefficients !== 'string' && Array.isArray(coefficients) == false) {
+function decryptPassword(encryptenData) {
+    const { encryptedPassword, encryptedCoefficient, newCoefficients } = encryptenData;
+    if (typeof newCoefficients !== 'string' && !Array.isArray(newCoefficients)) {
         console.error(' # THE TYPE OF COEFFICIENT IS NOT VALID!');
         console.error(' # IT HAS TO BE EITHER ARRAY OR STRING...');
         return password;
     }
 
-    let logMessage = '';
-
-    if (typeof coefficients == 'string') {
-        logMessage = 'Coefficient';
-        const coeffsInNumber = [];
-        coefficients = coefficients.split('');
-        for (let i = 0; i < coefficients.length; i++) {
-            coeffsInNumber.push(parseInt(coefficients[i]));
+    function fromStringToNumberArray(letter) {
+        const arrayInNumber = [];
+        for (let i = 0; i < letter.length; i++) {
+            try {
+                arrayInNumber.push(parseInt(letter[i]));
+            } catch (error) {
+                console.log('Error trying to convert the elements to number in string');
+                console.log(error.message);
+            }
         }
-        coefficients = coeffsInNumber;
+
+        return arrayInNumber;
+    }
+
+    let logMessage = '';
+    if (typeof newCoefficients == 'string') {
+        logMessage = 'Coefficient';
+        newCoefficients = fromStringToNumberArray(newCoefficients);
     } else {
         logMessage = 'Password';
     }
 
-    let decryptedPassword = '';
+    let decryptedCoefficient = '';
     let coefficientIndex = 0;
-    console.log(` ~ Decrypting ${logMessage}s... `);
-    for (let i = coefficients[coefficientIndex]; i < password.length; i = i + (coefficients[coefficientIndex] + 1)) {
-        decryptedPassword = decryptedPassword + password[i];
+    for (let i = newCoefficients[coefficientIndex]; i < encryptedCoefficient.length; i = i + (newCoefficients[coefficientIndex] + 1)) {
+        decryptedCoefficient = decryptedCoefficient + encryptedCoefficient[i];
         coefficientIndex++;
     }
-    console.log(` ~ ${logMessage} Decryption is done. `);
+
+    decryptedCoefficient = fromStringToNumberArray(decryptedCoefficient);
+
+    let decryptedPassword = '';
+    coefficientIndex = 0;
+    for (let i = decryptedCoefficient[coefficientIndex]; i < encryptedPassword.length; i = i + (decryptedCoefficient[coefficientIndex] + 1)) {
+        decryptedPassword = decryptedPassword + encryptedPassword[i];
+        coefficientIndex++;
+    }
+
     return decryptedPassword;
 }
 

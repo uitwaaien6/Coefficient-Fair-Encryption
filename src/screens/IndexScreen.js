@@ -4,14 +4,14 @@ import { encryptPassword } from '../encryption/coefficientFairEncryption';
 import jsonServer from '../api/jsonServer';
 
 async function sendEncryptionsToServer(password, setDisplayPassword) {
-    const { encryptedPassword, encryptedCoefficient, coefficients } = encryptPassword(password);
-    const data = { encryptedPassword, encryptedCoefficient, coefficients };
+    const encryptenData = encryptPassword(password);
+    const { encryptedPassword } = encryptenData;
     setDisplayPassword(encryptedPassword);
     try {
         const response = await jsonServer.post('/', data);
         console.log(response.data);
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
     return encryptedPassword;
 }
@@ -31,7 +31,7 @@ function IndexScreen() {
             />
             <Button
                 title="Encrypt Password"
-                onPress={async () => {
+                onPress={() => {
                     sendEncryptionsToServer(password, setDisplayPassword);
                     setPassword('');
                 }}
