@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import { useEncryption } from '../hooks/useEncryption';
+import { encryptPassword } from '../encryption/coefficientFairEncryption';
 import jsonServer from '../api/jsonServer';
 
 async function sendEncryptionsToServer(password, setDisplayPassword) {
-    const { encryptPassword, decryptPassword } = useEncryption();
     const { encryptedPassword, encryptedCoefficient, coefficients } = encryptPassword(password);
     const data = { encryptedPassword, encryptedCoefficient, coefficients };
     setDisplayPassword(encryptedPassword);
@@ -38,7 +37,6 @@ function IndexScreen() {
                 }}
             />
             <Text style={styles.encryptedPassword}>{displayPassword}</Text>
-            <Text>{displayPassword.toLowerCase()}</Text>
         </View>
     );
 }

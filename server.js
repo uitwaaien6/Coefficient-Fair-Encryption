@@ -1,12 +1,9 @@
 'use strict';
 
-const { useEncryption } = require('./src/hooks/useEncryption');
+const { decryptPassword } = require('./src/encryption/coefficientFairEncryption');
 const express = require('express');
-const terminalImage = require('terminal-image');
 const figlet = require('figlet');
-const { readFileSync, writeFileSync } = require('fs');
 const app = express();
-const { encryptPassword, decryptPassword } = useEncryption();
 
 function handleEncryption(encryptedPassword, encryptedCoefficient, coefficients) {
     const decryptedCoefficient = decryptPassword(encryptedCoefficient, coefficients);
@@ -50,12 +47,5 @@ app.post('/', (req, res) => {
         and thats how you communicate safely between client side and serverside... 
     */
     res.json({ encryptedPassword, encryptedCoefficient, coefficients });
-});
-
-app.get('/all', (req, res) => {
-    const passwordsDB = readFileSync('./passwords.json');
-    const passwordsJSON = JSON.parse(passwordsDB);
-    console.log(passwordsJSON);
-    res.send(passwordsJSON);
 });
 

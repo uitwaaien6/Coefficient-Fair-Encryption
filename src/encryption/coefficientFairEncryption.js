@@ -8,7 +8,7 @@
     So is anyone to capture the password from the internet traffic is going to get the encrypted password.
 */
 
-function encryptPassword(password="") {
+function encryptPassword(password="", complexity=6) {
     if (typeof password !== 'string') {
         console.error(' # THE TYPE OF PASSWORD IS NOT VALID!');
         console.error(' # IT HAS TO BE A STRING...');
@@ -32,7 +32,6 @@ function encryptPassword(password="") {
     }
 
     const letters = 'qwertyuiopasdfghjklzxcvbnm1234567890!&?$'.split('');
-    const complexity = 4;
     let coefficients = [];
     let coefficient = 0;
     let encryption = '';
@@ -105,8 +104,4 @@ function decryptPassword(password, coefficients) {
     return decryptedPassword;
 }
 
-function useEncryption() {
-    return { encryptPassword, decryptPassword };
-}
-
-module.exports = { useEncryption };
+module.exports = { encryptPassword, decryptPassword };
