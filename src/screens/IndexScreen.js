@@ -8,8 +8,7 @@ async function sendEncryptionsToServer(password, setDisplayPassword) {
     const { encryptedPassword } = encryptenData;
     setDisplayPassword(encryptedPassword);
     try {
-        const response = await jsonServer.post('/', data);
-        console.log(response.data);
+        await jsonServer.post('/', encryptenData);
     } catch (error) {
         console.log(error.message);
     }

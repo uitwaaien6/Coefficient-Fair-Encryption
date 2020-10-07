@@ -29,8 +29,9 @@ app.use(express.json());
 
 app.post('/', (req, res) => {
     const encryptenData = req.body;
-    console.log(` # Encryption: ${encryptenData}`);
-    const encryptedPassword = decryptPassword(encryptenData);
+    const decryptedPassword = decryptPassword(encryptenData);
+    console.log(' ~ Decrypting password...');
+    console.log(` ~ Password is: ${decryptedPassword}`);
     /* 
         do whatever you want with the decryptedPassword
         then send the encryptedPasswords to client again

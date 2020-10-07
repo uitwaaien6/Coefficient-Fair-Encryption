@@ -30,7 +30,7 @@ function encryptPassword(password="") {
     let encryption = '';
     let encryptedPassword = '';
     let encryptedCoefficient = '';
-    console.log(' ~ Encrypting password... ');
+    // console.log(' ~ Encrypting password... ');
     for (let i = 0; i < password.length; i++) {
         coefficient = Math.floor(Math.random() * complexity + complexity);
         coefficients.push(coefficient);
@@ -42,13 +42,13 @@ function encryptPassword(password="") {
         encryptedPassword = encryptedPassword + encryption + password[i];
         encryption = '';
     }
-    console.log(' ~ Password encryption is done. ');
+    // console.log(' ~ Password encryption is done. ');
 
     // ================== second phase ==================================
 
     const newCoefficients = [];
     coefficient = 0;
-    console.log(' ~ Encrypting coefficients... ');
+    // console.log(' ~ Encrypting coefficients... ');
     for (let i = 0; i < coefficients.length; i++) {
         coefficient = Math.floor(Math.random() * complexity + complexity);
         newCoefficients.push(coefficient);
@@ -60,14 +60,14 @@ function encryptPassword(password="") {
         encryptedCoefficient = encryptedCoefficient + encryption + coefficients[i];
         encryption = '';
     }
-    console.log(' ~ Coefficient encryption is done. ');
+    // console.log(' ~ Coefficient encryption is done. ');
     return { encryptedPassword, encryptedCoefficient, newCoefficients };
 }
 
 function decryptPassword(encryptenData) {
     const { encryptedPassword, encryptedCoefficient, newCoefficients } = encryptenData;
     if (typeof newCoefficients !== 'string' && !Array.isArray(newCoefficients)) {
-        console.error(' # THE TYPE OF COEFFICIENT IS NOT VALID!');
+        console.error(' # THE TYPE OF ENCRYPTEN DATA IS NOT VALID!');
         console.error(' # IT HAS TO BE EITHER ARRAY OR STRING...');
         return password;
     }
@@ -86,12 +86,8 @@ function decryptPassword(encryptenData) {
         return arrayInNumber;
     }
 
-    let logMessage = '';
     if (typeof newCoefficients == 'string') {
-        logMessage = 'Coefficient';
         newCoefficients = fromStringToNumberArray(newCoefficients);
-    } else {
-        logMessage = 'Password';
     }
 
     let decryptedCoefficient = '';
