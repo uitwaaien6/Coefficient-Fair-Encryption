@@ -66,11 +66,21 @@ function encryptPassword(password="") {
 
 function decryptPassword(encryptenData) {
     const { encryptedPassword, encryptedCoefficient, newCoefficients } = encryptenData;
+
+    if (!encryptedPassword || !encryptedCoefficient || !newCoefficients) {
+        let boundEncryptions = [encryptedPassword, encryptedCoefficient, newCoefficients];
+        let boundEncryptionsCtr = 0;
+        for (let key in encryptenData) {
+            encryptenData[key] = boundEncryptions[boundEncryptionsCtr];
+            boundEncryptionsCtr++;
+        }
+    }
+
     if (typeof newCoefficients !== 'string' && !Array.isArray(newCoefficients)) {
         console.error(' # THE TYPE OF ENCRYPTEN DATA IS NOT VALID!');
         console.error(' # IT HAS TO BE EITHER ARRAY OR STRING...');
         return password;
-    }
+    }    
 
     function fromStringToNumberArray(letter) {
         const arrayInNumber = [];

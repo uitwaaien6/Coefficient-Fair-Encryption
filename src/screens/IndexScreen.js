@@ -35,7 +35,11 @@ function IndexScreen() {
                     setPassword('');
                 }}
             />
-            <Text style={styles.encryptedPassword}>{displayPassword}</Text>
+            <Text style={styles.encryptedPassword}>
+                <Text style={styles.passwordLabel}>Encrypted Password: </Text>
+
+                <Text> {displayPassword}</Text>
+            </Text>
         </View>
     );
 }
@@ -49,9 +53,14 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         borderRadius: 1
     },
+    passwordLabel: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
     encryptedPassword: {
         padding: 15,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 'bold'
     }
 })
 
