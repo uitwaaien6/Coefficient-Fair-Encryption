@@ -13,7 +13,8 @@ So is anyone to capture the password from the internet traffic is going to get t
 # STEP BY STEP
 
  - First download the whole file from repository to your desktop and unzip it.
- - Change the directory to our app file.
+ - Change the directory to our app file in your terminal.
+ - type "npm install" without quotes into your terminal.
  - Close all the servers and localhosts which is running at port:3000 & port:19002 & port:19001 & 19000
  - Open 3 terminals side by side
  - In the first terminal, type: "node server.js"
